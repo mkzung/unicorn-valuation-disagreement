@@ -1,0 +1,7 @@
+pandas>=2.0
+numpy>=1.24
+matplotlib>=3.7
+scipy>=1.10
+adjustText>=1.0   # non-overlapping labels for figures/headline_vs_forge.png (optional; analyze.py falls back gracefully)
+pytest>=7.0       # test suite under tests/ (anti-drift number/prose guard + metric checks); run: python -m pytest -q
+certifi>=2023.7   # TLS roots for the SEC harvesters (src/nport_fetch.py, src/nport_timeseries.py, src/family_forecast.py); offline pipeline does not need it

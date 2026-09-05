@@ -1,0 +1,65 @@
+# The guards in this repository check that every number the paper prints is the number the
+# code produces. Until now they only ever ran where they were written, which is the weakest
+# possible place for them: three separate figures have moved between minor releases of pandas
+# because a float was compared for equality, and each time the person who found it was a
+# reader on a different stack rather than the author on his own.
+#
+# So the suite runs twice. `lock` is requirements.lock, the environment the reported figures
+# were produced on — it has to be green or the paper's reproducibility claim is false.
+# `floor` installs the oldest versions requirements.txt permits and the newest pandas and
+# numpy that satisfy it, which is what a reader who types `pip install -r requirements.txt`
+# actually gets. A number that survives one and not the other is not a result, it is an
+# artifact of an environment, and this is where that gets caught.
+name: verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false        # a failure on one environment must not hide the other's state
+      matrix:
+        include:
+          - name: lock
+            python: "3.10"
+            install: pip install -r requirements.lock
+          - name: floor
+            python: "3.12"
+            install: pip install -r requirements.txt
+    name: verify (${{ matrix.name }})
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      # Nine of the eleven checks in `tests/test_pdf_artifact.py` skip without `pdftotext`
+      # and `pdffonts`, and a skip is silent: the suite reported green here while the whole
+      # PDF artifact file — the tofu-glyph check, the font check, and the guard that a URL
+      # is not broken across a line — had never once run anywhere but the author's laptop.
+      # The PDF is committed, so these read a shipped binary and need no LaTeX.
+      - name: poppler (the PDF checks skip without it)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+      - name: install
+        run: |
+          python -m pip install --upgrade pip
+          ${{ matrix.install }}
+      - name: versions under test
+        run: python -c "import pandas,numpy,scipy;print('pandas',pandas.__version__,'numpy',numpy.__version__,'scipy',scipy.__version__)"
+      - name: drift guard
+        run: python3 src/paper_numbers.py --check
+      # `src/panel_table.py --check` used to run here. It compares its own rendering of
+      # `data/valuation_panel.csv` against a table in the manuscript, and that table left with
+      # the secondary-market leg, so the step exits 1 on every commit since the cut. A referee
+      # noticed the workflow had never run publicly on the reframed paper; the reason it would
+      # have failed is this step, checking a table the paper does not print.
+      - name: lint
+        run: |
+          python -m pip install ruff
+          python -m ruff check .
+      - name: tests
+        run: python3 -m pytest -q

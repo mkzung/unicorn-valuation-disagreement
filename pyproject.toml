@@ -1,0 +1,142 @@
+# Lint configuration. There was a `.ruff_cache` in this repository and no config, which
+# means the code had been linted at some point under whatever defaults were in force that
+# day. A referee reading the package cannot check "the code is clean" against a setting
+# nobody wrote down, so the ruleset is here and `ruff check .` is a gate anyone can run.
+#
+# The selection is not `ALL`. `ALL` returns 3,654 line-length complaints against a file
+# whose own convention is 100 columns, 882 `assert`s in a test suite whose job is
+# asserting, and 481 `print`s in scripts whose job is printing. A rule set that has to be
+# ignored in bulk is not a standard. What is selected below is the set that has caught a
+# real defect in this project or would have.
+
+[tool.ruff]
+# Read off the code, not chosen: half the lines are under 53 columns, the 99th percentile
+# is 101 and the 99.9th is 117. At 120 exactly three lines in the package are over, and all
+# three are wrapped rather than exempted.
+line-length = 120
+target-version = "py310"
+extend-exclude = ["_work"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W",      # pycodestyle: the mechanical layer
+    "F",           # pyflakes: unused names, undefined names, f-strings with no placeholder
+    "B",           # bugbear. B023 (loop variable in a closure) is why this one is here
+    "C4",          # comprehensions
+    "PLE", "PLW",  # pylint errors and warnings, including subprocess-run-without-check
+    "PLR0124",     # a name compared with itself. Three of these were NaN guards
+    "RUF",         # ruff's own, including the ambiguous-unicode checks a paper needs
+    "SIM",         # simplifications that change nothing and read better
+    "PD",          # pandas idiom
+    "NPY",         # numpy idiom
+    "PT",          # pytest idiom
+    "ARG",         # unused arguments: a parameter nothing reads is a promise nothing keeps
+    "DTZ",         # naive datetimes, in a project whose whole index is a date
+]
+ignore = [
+    # A `print` in a script that exists to print is not a finding, and this package is
+    # mostly scripts that print. Guarded instead by the tests that read their output.
+    "T201",
+    # `assert` is what a test is. Ruff flags it because asserts vanish under `-O`; nothing
+    # here runs under `-O`, and the alternative is a raise-if in nine hundred places.
+    "S101",
+    # Magic values: a threshold in this project is registered and explained where it is set,
+    # which is a stronger discipline than naming it. `paper_numbers.py` is the constant file.
+    "PLR2004",
+    # The repository imports its own modules after a `sys.path` line, because `src/` is a
+    # directory of scripts rather than an installed package. Moving them would need a
+    # packaging change this paper does not want.
+    "E402", "PLC0415",
+    # Line-length is enforced by `E501` at 120 above; `W505` wants a doc-length too, and the
+    # docstrings here are deliberately long — they carry the failure that motivated the code.
+    "W505",
+    # `zip(...)` without `strict=` is flagged by RUF; the ones here zip a frame against its
+    # own derived list and a length mismatch would be caught by the value it produced.
+    "B905",
+    # Ambiguous-unicode. This is a paper: §, ×, ⁻⁵, — and the en dash in "2019Q4–2026Q2" are
+    # the characters it is about, and `src/build_pdf.py` fails the build on any glyph the PDF
+    # cannot set, which is the check that matters here.
+    "RUF001", "RUF002", "RUF003",
+    # `assert a and b, "..."` in a test. Ruff wants two asserts so the failure names which
+    # half broke; this suite's convention is one assertion with a message that says.
+    "PT018",
+    # `.values` on a frame. Real idiom, 27 occurrences, most of them inside the four files
+    # the registration pins by content, so a sweep here is a two-commit change for no
+    # behavioural gain.
+    "PD011",
+    # `dict()` over `{}` inside a `.agg(...)` call, where the keyword form is what reads.
+    "C408",
+    # Naive datetimes. Every date in this project is a filing period or a report date — a
+    # calendar day with no time and no zone, which is what the SEC publishes. Attaching a
+    # timezone would invent precision the source does not have.
+    "DTZ001", "DTZ005", "DTZ007",
+    # `.nunique() == 1` on a series. Ruff prefers `.is_unique`; the tests here mean "this
+    # column holds one value", which is what the count says.
+    "PD101",
+    # `.iat` over `.iloc` for a single scalar. Three uses, each pulling one cell out of a
+    # one-row frame, which is exactly what `.iat` is for.
+    "PD009",
+    # `l` as a loop variable over lines. Ambiguous with `1` in some faces; this repository
+    # sets its own in a serif and the alternative is renaming a hundred one-line loops.
+    "E741",
+    # A test helper with a default argument. `PT028` assumes every `test_`-prefixed function
+    # is collected by pytest; these three live in `src/` and are called directly.
+    "PT028",
+    # `open()` without a context manager, in three places that hand the handle straight to a
+    # reader which closes it.
+    "SIM115",
+    # An unused parameter. Nine of these, and each is a shape rather than an oversight: a
+    # pytest fixture taken for its side effect, a callback signature a caller fixes, a
+    # keyword kept so two writers can be swapped. Removing them would break the callers.
+    "ARG001",
+    # A `for` variable reassigned inside its own loop (`for g in ...: g = g.sort_values()`).
+    # Standard pandas, and the alternative is a second name per loop.
+    "PLW2901",
+    # `global` in `mark_staleness.sensitivity`, which sweeps two module thresholds and
+    # restores them in a `finally`. That is what the function is for and its docstring says
+    # so; a test asserts the globals come back.
+    "PLW0603",
+    # `dict.get` over an `if` block, `contextlib.suppress` over `try/except/pass`, unpacking
+    # over concatenation, `pivot_table` over `unstack`. Four idiom preferences, none of them
+    # a defect, each touching a line whose current form is the one that reads here.
+    "SIM401", "SIM105", "RUF005", "PD010",
+    # A named lambda, a lambda that could be a method reference, a broad `pytest.raises`,
+    # and `date.today()` in the one test whose question IS what day it is.
+    "E731", "PLW0108", "PT011", "DTZ011",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# The four files the pre-registration pins by content (`notes/registration.md` §8). Touching
+# one of them makes the registration's own claim false until the pin is moved, so a lint fix
+# in them is a two-commit change and is taken deliberately rather than in a sweep. The two
+# blind excepts in `population.py` are the outstanding case: they are around an optional
+# parquet cache, where the fallback is to recompute, and they are listed here rather than
+# silently reformatted.
+"src/population.py" = ["BLE001", "E501", "E702", "PD009", "RUF059", "B007", "PLW2901"]
+"src/robustness.py" = ["BLE001", "E501", "E702", "PD009", "RUF059", "B007", "PLW2901"]
+"src/validation.py" = ["BLE001", "E501", "E702", "PD009", "RUF059", "B007", "PLW2901"]
+"src/sector_specification_curve.py" = [
+    "BLE001", "E501", "E702", "PD009", "RUF059", "B007", "PLW2901"]
+# The five modules that belong to the second paper (see `tests/test_package_integrity.py`'s
+# `PAPER_TWO`). They ship as that paper's seed and are not maintained to this one's standard;
+# linting them here would be holding a draft to a finished paper's rules.
+"src/analyze.py" = ["E501", "E702", "ARG001", "B007", "RUF059", "PLW2901", "PD101", "SIM115"]
+"src/coverage_matrix.py" = [
+    "E501", "E702", "ARG001", "B007", "RUF059", "PLW2901", "PD101", "SIM115"]
+"src/forge_index.py" = ["E501", "E702", "ARG001", "B007", "RUF059", "PLW2901", "PD101", "SIM115"]
+"src/fund_marks_timeseries.py" = [
+    "E501", "E702", "ARG001", "B007", "RUF059", "PLW2901", "PD101", "SIM115"]
+"src/panel_table.py" = ["E501", "E702", "ARG001", "B007", "RUF059", "PLW2901", "PD101", "SIM115"]
+"src/prediction_markets.py" = [
+    "E501", "E702", "ARG001", "B007", "RUF059", "PLW2901", "PD101", "SIM115"]
+# A harvester that dies on one filing must not take the harvest with it; each of these
+# catches around a single document, logs it, and carries on, and the count of failures is
+# reported. Narrowing them to the exception types EDGAR actually produces was tried and the
+# list is open-ended: a truncated gzip, a malformed table, an encoding no parser expects.
+"src/nport_fetch.py" = ["BLE001"]
+"src/nport_bulk.py" = ["BLE001"]
+"src/nport_timeseries.py" = ["BLE001"]
+"src/ncsr_acquisitions.py" = ["BLE001"]
+"src/form_d.py" = ["BLE001"]
+"src/verify_marks.py" = ["BLE001"]
+"src/verify_placebo_sec.py" = ["BLE001"]

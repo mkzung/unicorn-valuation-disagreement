@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+message: "If you use this code, data, or the working paper, please cite it as below."
+title: "Disagreement Without a Price: How Far Apart Mutual Funds Mark the Same Private Company"
+type: software
+authors:
+  - family-names: Gorbuk
+    given-names: Max
+    affiliation: "Independent Researcher; MAM, London Business School"
+version: "2.0.1"
+date-released: 2026-09-05
+repository-code: "https://github.com/mkzung/unicorn-valuation-disagreement"
+keywords:
+  - private-company valuation
+  - unicorns
+  - SEC N-PORT fund marks
+  - valuation disagreement
+  - differences of opinion
+  - fair-value accounting
+  - secondary markets
+abstract: >-
+  A private company has no continuously observable price, and between
+  transactions its value is whatever its holders say it is. On the population of
+  Level-3 private marks US registered funds filed from 2019Q4 to 2026Q2 -
+  309,654 marks, no company list consulted - independent fund houses report the
+  same private share a median of 12.1 percent apart, and 180.0 billion dollars
+  of the 517.3 billion booked in these positions sits above a 24 percent spread.
+  The unit of an independent valuation is the fund house rather than the legal
+  trust that files: measured between registrants the same data give 0.004
+  percent. The disagreement survives a Level-1 placebo, a subsample in which no
+  house re-marked, and one lot whose entry price is disclosed and identical.
+  What compresses it is a transaction, and only briefly.
+preferred-citation:
+  type: article
+  title: "Disagreement Without a Price: How Far Apart Mutual Funds Mark the Same Private Company"
+  authors:
+    - family-names: Gorbuk
+      given-names: Max
+  year: 2026
+  notes: "Working paper. SSRN/arXiv identifiers to be added on posting."

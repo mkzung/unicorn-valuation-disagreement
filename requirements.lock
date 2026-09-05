@@ -1,0 +1,27 @@
+# Exact versions the reported figures were produced on.
+#
+# requirements.txt gives floors, which is right for someone who wants to run this against
+# their own stack. It is not enough for the byte-stability the paper claims. Three separate
+# figures have moved between pandas 2.2.3 and 2.3.3, all for one reason: a float compared
+# for equality. A sum of squared deviations over identical prices lands anywhere in
+# [0, 1e-25] depending on accumulation order and was tested against zero; a threshold sat on
+# a knife edge; a tie between two company medians was decided by ==, which moved a count the
+# manuscript printed. Every such comparison now goes through population.same_number, and a
+# test asserts nothing sits near enough to the tolerance for a release to decide it.
+#
+# Both environments are checked on every push by .github/workflows/verify.yml, so the guards
+# no longer run only where they were written. The lock file remains the answer to
+# "reproduces exactly", which is a claim about an environment and has to name one.
+#
+#   pip install -r requirements.lock
+#
+# Verified on Python 3.10.11, macOS. Regenerate with:
+#   pip freeze | grep -iE '^(pandas|numpy|scipy|matplotlib|adjustText|pytest|certifi)=='
+
+pandas==2.2.3
+numpy==1.26.3
+scipy==1.15.3
+matplotlib==3.10.6
+adjustText==1.4.0
+pytest==8.4.2
+certifi==2026.6.17

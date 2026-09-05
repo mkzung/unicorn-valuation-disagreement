@@ -1,0 +1,12 @@
+company,forge_val_busd,indep_implied_val_busd,indep_type,diff_pct,forge_gap_pct,indep_gap_pct,direction_agree,indep_date,indep_source
+Anthropic,965.0,1000.0,secondary_press,-3.500000000000003,0.0,3.626943005181338,True,2026-05-26,Decrypt/YahooFinance/Qz 2026-05-26 ~$1T implied on secondary mkts
+OpenAI,908.81,852.0,primary_round,6.667840375586853,6.667840375586853,0.0,True,2026-03-31,CNBC/Bloomberg 2026-03 $852B close ($122B round)
+Databricks,170.7,170.0,primary_round,0.4117647058823559,27.38805970149254,26.865671641791057,True,2026-06-09,TheInformation/Inc/PYMNTS 2026-06-09 $165-175B round in talks
+Anduril,103.23,95.08,secondary_venue,8.571729070256628,69.22950819672131,55.86885245901638,True,2026-03-16,PMInsights 2026-03-16 $95.08B secondary
+Ramp,45.76,44.0,primary_round,4.0000000000000036,4.0000000000000036,0.0,True,2026-06-04,TechCrunch/PYMNTS 2026-06-04 $750M at $44B
+Stripe,180.01,159.0,tender,13.213836477987417,13.213836477987417,0.0,False,2026-02-24,CNBC/TechCrunch/TheBlock/Stripe 2026-02-24 $159B tender
+Kraken,11.93,,secondary_venue,,-40.349999999999994,,False,2026-06,Hiive/Caplight 2026 heavy secondary volume above $10B
+Perplexity,19.08,21.2,secondary_venue,-10.000000000000009,-4.600000000000004,6.000000000000005,True,2026-01,Tracxn/secondary 2026-Q1 $21.2-22.6B
+Epic Games,12.16,14.76,secondary_venue,-17.615176151761514,-61.39682539682539,-53.14285714285714,True,2026-06,Notice $393.63/sh / PremierAlts $18B / secondary $13-18B 2026
+PsiQuantum,5.13,5.53,secondary_venue,-7.233273056057876,-26.71428571428571,-20.999999999999996,True,2026-06,NasdaqPrivateMarket $33.09 (Jun5) / Hiive $32.01 (Jun26) / Public $32.88 2026
+Mercury,5.2,4.95,secondary_venue,5.050505050505061,0.0,-4.807692307692313,True,2026-06-05,NasdaqPrivateMarket $16.87/sh 2026-06-05

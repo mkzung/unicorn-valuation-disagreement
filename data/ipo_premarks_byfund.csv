@@ -1,0 +1,19 @@
+company,family,mark_pps,ipo_pps,err_pct,n_funds
+Instacart,LINCOLN VARIABLE INSUR,32.5,30.0,8.3,5
+Instacart,Voya Partners Inc,32.5,30.0,8.3,4
+Instacart,Brighthouse Funds Trus,32.5,30.0,8.3,6
+Instacart,T. Rowe Price,32.5,30.0,8.3,22
+Instacart,MASSMUTUAL SELECT FUND,32.5,30.0,8.3,5
+Instacart,MML SERIES INVESTMENT ,32.5,30.0,8.3,2
+Instacart,SEASONS SERIES TRUST,37.18,30.0,23.9,5
+Instacart,Variable Insurance Pro,41.62,30.0,38.7,3
+Reddit,Fidelity,32.37,34.0,-4.8,22
+Chime,Fidelity,0.0,27.0,-100.0,1
+Chime,Alger,26.77,27.0,-0.9,4
+Figma,Fidelity,23.73,33.0,-28.1,5
+ServiceTitan,FUNDRISE GROWTH TECH F,72.5,71.0,2.1,1
+ServiceTitan,T. Rowe Price,78.85,71.0,11.1,21
+ServiceTitan,MASSMUTUAL SELECT FUND,78.85,71.0,11.1,5
+Klaviyo,EQ Advisors Trust,28.37,30.0,-5.4,1
+Klaviyo,ClearBridge,34.38,30.0,14.6,1
+Circle,Fidelity,23.33,31.0,-24.7,4

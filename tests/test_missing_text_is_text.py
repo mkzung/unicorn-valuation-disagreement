@@ -25,7 +25,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-import population as pop  # noqa: E402
+import population as pop
 
 MISSING = pd.Series(["SERIES A SHARES", np.nan, "CLASS B", pd.NA], dtype=object)
 

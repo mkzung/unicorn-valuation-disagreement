@@ -242,7 +242,7 @@ def name_mismatch(d: pd.DataFrame) -> pd.Series:
     DROP = r"\b(?:HOLDINGS?|HLDGS?|HLDG|GROUP|GRP|PARENT|TOPCO|INTERNATIONAL|INTL)\b"
 
     def up(s: pd.Series) -> pd.Series:
-        t = (s.astype(str).str.upper().str.replace(r"[^A-Z0-9 ]", " ", regex=True)
+        t = (pop.as_text(s).str.upper().str.replace(r"[^A-Z0-9 ]", " ", regex=True)
               .str.replace(DROP, " ", regex=True)
               .str.replace(r"\s+", " ", regex=True).str.strip())
         return t.where(~t.isin({"", "NAN", "NONE"}), "")
@@ -285,14 +285,14 @@ def features() -> pd.DataFrame:
     x = pop.comparable(d)
     keys = set(zip(g.company, g.dt))
     ins = x[[k in keys for k in zip(x.company, x.dt)]].copy()
-    txt = (ins.ISSUER_TITLE.astype(str).str.upper() + " | "
-           + ins.ISSUER_NAME.astype(str).str.upper())
+    txt = (pop.as_text(ins.ISSUER_TITLE).str.upper() + " | "
+           + pop.as_text(ins.ISSUER_NAME).str.upper())
     ins["pp"] = txt.str.contains(r"\bPP\b|PRIVATE PLACEMENT|\b144A\b", regex=True)
-    ins["res"] = ins.IS_RESTRICTED_SECURITY.astype(str).str.upper().eq("Y")
+    ins["res"] = pop.as_text(ins.IS_RESTRICTED_SECURITY).str.upper().eq("Y")
 
-    name = ins.ISSUER_NAME.astype(str)
+    name = pop.as_text(ins.ISSUER_NAME)
     name = name.where((name.str.len() > 2) & (name.str.lower() != "nan"),
-                      ins.ISSUER_TITLE.astype(str))
+                      pop.as_text(ins.ISSUER_TITLE))
     ins["nm"] = name
 
     f = ins.groupby("company").agg(pp=("pp", "mean"), res=("res", "mean"), rows=("pps", "size"))

@@ -244,7 +244,7 @@ def _post_listing_marks() -> pd.DataFrame:
     m["listing"] = m.company.map(dts)
     p = m[m.dt > m.listing].copy()
     p["days"] = (p.dt - p.listing).dt.days
-    p["res"] = p.IS_RESTRICTED_SECURITY.astype(str).str.upper().eq("Y")
+    p["res"] = pop.as_text(p.IS_RESTRICTED_SECURITY).str.upper().eq("Y")
     return p
 
 

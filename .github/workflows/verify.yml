@@ -34,6 +34,10 @@ jobs:
     name: verify (${{ matrix.name }})
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The registration pin and the manuscript date are questions about
+          # history, and the default depth of 1 has none to read.
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}

@@ -739,18 +739,25 @@ def canonical_series(token: str) -> str:
 
 
 def extract_series(text: pd.Series) -> pd.Series:
-    """The one series a title names, canonicalised, or NA. One regex, one extraction rule.
+    """The one series a title names, canonicalised, or None. One regex, one extraction rule.
 
     `SERIES_RE` carries three alternatives and therefore three capture groups, which is why
     callers cannot use `str.extract(..., expand=False)` on it and why two of them used to keep
     their own single-group copies instead. They call this instead.
+
+    The result is built at object dtype rather than through `Series.map`, which is where the
+    missing value stops being one thing: on pandas 3 the input column is the new `str` dtype,
+    `map` keeps that dtype for its output, and a returned `None` reads back as `float("nan")`.
+    A caller asking `is None` then sees a number, and one asking the regex sees a float. Naming
+    the dtype pins the sentinel to `None` on every pandas the floor allows.
     """
     def one(t: str):
         m = SERIES_RE.search(t)
         if not m:
             return None
         return canonical_series(next(v for v in m.groups() if v))
-    return as_text(text).str.upper().map(one)
+    upper = as_text(text).str.upper()
+    return pd.Series([one(t) for t in upper], index=text.index, dtype=object)
 
 
 def series_letters(d: pd.DataFrame) -> pd.Series:

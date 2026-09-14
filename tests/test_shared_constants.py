@@ -146,10 +146,17 @@ CORPUS_ROWS = 20000
 
 
 def _corpus() -> list[str]:
+    """The titles the patterns are scored against, as text on every pandas the floor allows.
+
+    `astype(str)` here was the same defect these tests exist to catch: on pandas 3 it leaves a
+    missing title missing, and `re.search` raises on the float. The corpus reads through the
+    one function the code uses, so the guard and the code agree about what a missing title is.
+    """
     import pandas as pd
     f = ROOT / "data" / "nport_population_marks.csv.gz"
     d = pd.read_csv(f, usecols=["ISSUER_TITLE"], nrows=CORPUS_ROWS, low_memory=False)
-    return d.ISSUER_TITLE.astype(str).str.upper().tolist()
+    import population as pop
+    return pop.as_text(d.ISSUER_TITLE).str.upper().tolist()
 
 
 def _value(rx: re.Pattern, t: str):

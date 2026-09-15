@@ -197,9 +197,26 @@ def _any(txt: pd.Series, patterns: dict[str, str]) -> pd.Series:
     return txt.str.contains("|".join(patterns.values()), regex=True, na=False)
 
 
+def as_text(s: pd.Series) -> pd.Series:
+    """A text column whose missing values are all the one literal, "nan".
+
+    `astype(str)` rendered a missing value as the string "nan" up to pandas 2 and leaves
+    it missing from pandas 3, where a concatenation of two such columns is a float and
+    `re.finditer` raises on it. Two guards in `company_class` test for that literal, so
+    on pandas 3 they compare against a missing value and pass everything through, which
+    is the quiet half of the same change.
+
+    Filling before the cast rather than after, because the cast renders each flavour of
+    missing differently: `NaN` as "nan" and `pd.NA` as "<NA>", and the second slips past
+    a guard written for the first. Marks load through `read_csv(dtype=str)`, which
+    produces only `NaN`, so this moves no number in the panel.
+    """
+    return s.fillna("nan").astype(str)
+
+
 def _title(d: pd.DataFrame) -> pd.Series:
-    return (d.ISSUER_TITLE.astype(str).str.upper() + " | "
-            + d.ISSUER_NAME.astype(str).str.upper())
+    return (as_text(d.ISSUER_TITLE).str.upper() + " | "
+            + as_text(d.ISSUER_NAME).str.upper())
 
 
 # Rows a filer left without an issuer name. The resolver clusters on what it is given, so
@@ -228,7 +245,7 @@ def price_outliers(d: pd.DataFrame, c: pd.DataFrame, floor: float = 0.05) -> pd.
     g = c[c.guarded]
     keys = set(zip(g.company, g.dt))
     x = d[[k in keys for k in zip(d.company, d.dt)]].copy()
-    x["ti"] = x.ISSUER_TITLE.astype(str).str.upper().str.strip()
+    x["ti"] = as_text(x.ISSUER_TITLE).str.upper().str.strip()
     out = []
     for (co, dt), grp in x.groupby(["company", "dt"]):
         med, modal = grp.pps.median(), grp.ti.mode().iloc[0]
@@ -722,18 +739,25 @@ def canonical_series(token: str) -> str:
 
 
 def extract_series(text: pd.Series) -> pd.Series:
-    """The one series a title names, canonicalised, or NA. One regex, one extraction rule.
+    """The one series a title names, canonicalised, or None. One regex, one extraction rule.
 
-    `SERIES_RE` carries three alternatives and therefore three capture groups, which is why
-    callers cannot use `str.extract(..., expand=False)` on it and why two of them used to keep
-    their own single-group copies instead. They call this instead.
+    `SERIES_RE` carries three alternatives and therefore three capture groups, so a caller
+    cannot use `str.extract(..., expand=False)` on it. Every caller comes through here, which
+    is what holds the panel to one extraction rule rather than a single-group copy per site.
+
+    The result is built at object dtype rather than through `Series.map`, which is where the
+    missing value stops being one thing: on pandas 3 the input column is the new `str` dtype,
+    `map` keeps that dtype for its output, and a returned `None` reads back as `float("nan")`.
+    A caller asking `is None` then sees a number, and one asking the regex sees a float. Naming
+    the dtype pins the sentinel to `None` on every pandas the floor allows.
     """
     def one(t: str):
         m = SERIES_RE.search(t)
         if not m:
             return None
         return canonical_series(next(v for v in m.groups() if v))
-    return text.astype(str).str.upper().map(one)
+    upper = as_text(text).str.upper()
+    return pd.Series([one(t) for t in upper], index=text.index, dtype=object)
 
 
 def series_letters(d: pd.DataFrame) -> pd.Series:
@@ -742,7 +766,7 @@ def series_letters(d: pd.DataFrame) -> pd.Series:
     Filers are not required to name the security beyond the issuer, and most of the time
     they do anyway: about one row in four carries a series or class letter in its title.
     """
-    txt = (d.ISSUER_TITLE.astype(str).str.upper() + " | " + d.ISSUER_NAME.astype(str).str.upper())
+    txt = (as_text(d.ISSUER_TITLE).str.upper() + " | " + as_text(d.ISSUER_NAME).str.upper())
     return pd.Series([frozenset(canonical_series(next(v for v in m.groups() if v))
                                 for m in SERIES_RE.finditer(t))
                       for t in txt], index=d.index)

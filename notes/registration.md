@@ -214,15 +214,28 @@ no α is adjusted after the fact.
 
 The tests above are the ones already implemented in `src/robustness.py`,
 `src/validation.py`, `src/population.py` and `src/sector_specification_curve.py` at commit
-`b48cc10`. Re-running `python3 src/reproduce.py` on the extended data executes them unchanged;
+`b8b5150`. Re-running `python3 src/reproduce.py` on the extended data executes them unchanged;
 any modification to those files between this registration and the next version is visible in
 the repository history.
 
-The commit named above is the eighth and last of this history, and the pin moves with it.
-`src/validation.py` changed in that commit: a three-line conclusion baked into the exit
-figure came out of the image and into its caption, where a build can check it, and the
-docstring's "0 = nailed it" went with it. No executable line moved and the reproduction run
-returns every number unchanged, which is the check that matters rather than the description.
+The pin was left at `b48cc10` when the history was rebuilt, and that hash resolves nowhere.
+`tests/test_registration_pin.py` says so on every run, which is the only reason this is a
+correction and not an unnoticed hole: a pin naming a commit the repository does not contain
+cannot be checked at all, so the section's claim was neither true nor false for as long as it
+stood there. The four files entered this history whole at `a8a64c7` and moved once since.
+
+That once is now twice, and both moves are the same defect at two depths. `astype(str)`
+rendered a missing value as the string "nan" up to pandas 2 and leaves it missing from
+pandas 3, so `series_letters` handed a float to a regex and the nightly job on the newest
+pandas the requirements allow died where the pinned-environment job passed. `62b516d` gave
+`src/population.py` one helper that fills before the cast, used at thirteen call sites across
+three files. `b8b5150`, the commit named above, covers the layer under it: `extract_series`
+returned through `Series.map`, which keeps the input's new `str` dtype for its output, so a
+returned `None` came back as `float("nan")` and a caller asking `is None` saw a number. The
+result is built at object dtype now. No test above changed, and the reproduction run returns
+571 canonical numbers with no drift: marks load through `read_csv(dtype=str)`, which produces
+only `NaN`, so no figure the paper prints depends on how a missing one renders.
+
 A pin cannot name the commit that contains it, so this is the second of the two commits that
 move together: the work, and then the pin. The history was rebuilt from a hundred and
 thirty-three working commits into seven before anything was published, so every hash the

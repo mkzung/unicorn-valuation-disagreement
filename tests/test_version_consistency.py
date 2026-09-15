@@ -84,6 +84,11 @@ def test_the_manuscript_has_not_moved_past_its_own_version_date():
                        cwd=ROOT, capture_output=True, text=True, check=False)
     if r.returncode != 0 or not r.stdout.strip():
         pytest.skip("git present but the manuscript has no commit history here")
+    shallow = subprocess.run(["git", "rev-parse", "--is-shallow-repository"],
+                             cwd=ROOT, capture_output=True, text=True, check=False)
+    if shallow.stdout.strip() == "true":
+        pytest.skip("shallow clone: the last commit here is the clone's own, not the "
+                    "manuscript's, so the date it reports is not the one being checked")
     draft = (ROOT / "paper" / "draft.md").read_text(encoding="utf-8")
     stated = _dt.datetime.strptime(
         re.search(r"This version: (\w+ \d+, \d{4})", draft).group(1), "%B %d, %Y").date()

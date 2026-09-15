@@ -46,6 +46,9 @@ def _pinned_commit() -> str:
 def repo() -> bool:
     if _git("rev-parse", "--git-dir").returncode != 0:
         pytest.skip("not a git checkout")
+    if _git("rev-parse", "--is-shallow-repository").stdout.strip() == "true":
+        pytest.skip("shallow clone: the pin resolves nowhere here, so this proves nothing. "
+                    "Clone without --depth, or set fetch-depth: 0 on the checkout")
     return True
 
 

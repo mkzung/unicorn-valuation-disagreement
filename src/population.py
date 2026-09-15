@@ -741,9 +741,9 @@ def canonical_series(token: str) -> str:
 def extract_series(text: pd.Series) -> pd.Series:
     """The one series a title names, canonicalised, or None. One regex, one extraction rule.
 
-    `SERIES_RE` carries three alternatives and therefore three capture groups, which is why
-    callers cannot use `str.extract(..., expand=False)` on it and why two of them used to keep
-    their own single-group copies instead. They call this instead.
+    `SERIES_RE` carries three alternatives and therefore three capture groups, so a caller
+    cannot use `str.extract(..., expand=False)` on it. Every caller comes through here, which
+    is what holds the panel to one extraction rule rather than a single-group copy per site.
 
     The result is built at object dtype rather than through `Series.map`, which is where the
     missing value stops being one thing: on pandas 3 the input column is the new `str` dtype,

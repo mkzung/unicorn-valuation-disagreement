@@ -45,7 +45,7 @@ def test_as_text_renders_a_missing_value_the_way_the_guards_expect():
 
 
 def test_as_text_leaves_a_column_with_nothing_missing_alone():
-    """Which is why the fix cannot move a reported number: it only fills what was NA."""
+    """Which is why no reported number can move: the coercion only reaches a missing title."""
     full = pd.Series(["a", "b", "c"], dtype=object)
     assert list(pop.as_text(full)) == list(full.astype(str))
 

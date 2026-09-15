@@ -234,7 +234,8 @@ returned through `Series.map`, which keeps the input's new `str` dtype for its o
 returned `None` came back as `float("nan")` and a caller asking `is None` saw a number. The
 result is built at object dtype now. No test above changed, and the reproduction run returns
 571 canonical numbers with no drift: marks load through `read_csv(dtype=str)`, which produces
-only `NaN`, and neither change touches a column carrying one.
+only `NaN`, so no figure the paper prints depends on how a missing one renders.
+
 A pin cannot name the commit that contains it, so this is the second of the two commits that
 move together: the work, and then the pin. The history was rebuilt from a hundred and
 thirty-three working commits into seven before anything was published, so every hash the

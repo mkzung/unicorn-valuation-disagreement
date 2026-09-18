@@ -214,7 +214,7 @@ no α is adjusted after the fact.
 
 The tests above are the ones already implemented in `src/robustness.py`,
 `src/validation.py`, `src/population.py` and `src/sector_specification_curve.py` at commit
-`b8b5150`. Re-running `python3 src/reproduce.py` on the extended data executes them unchanged;
+`1b0b4f1`. Re-running `python3 src/reproduce.py` on the extended data executes them unchanged;
 any modification to those files between this registration and the next version is visible in
 the repository history.
 

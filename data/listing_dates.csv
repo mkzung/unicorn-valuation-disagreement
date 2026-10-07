@@ -1,0 +1,24 @@
+key,cik,company,edgar_name,era_name,era_from,listing_date,form,accession,mechanism,note
+ROW:33217,1559720,"Airbnb, Inc.","Airbnb, Inc.",(any),0001-01-01,2020-12-08,8-A12B,0001193125-20-312601,exchange registration,Airbnb
+NM:PALANTIR,1321655,Palantir Technologies Inc.,Palantir Technologies Inc.,(any),0001-01-01,2020-09-21,8-A12B,0001193125-20-250175,exchange registration,direct listing; second 8-A12B in 2024 is the Nasdaq move
+NM:UIPATH,1734722,"UiPath, Inc.","UiPath, Inc.",(any),0001-01-01,2021-04-16,8-A12B,0001193125-21-119471,exchange registration,
+NM:SWEETGREEN,1477815,"Sweetgreen, Inc.","Sweetgreen, Inc.",(any),0001-01-01,2021-11-15,8-A12B,0001193125-21-330112,exchange registration,
+NM:RIVIAN AUTOMOTIVE,1874178,"Rivian Automotive, Inc. / DE","Rivian Automotive, Inc. / DE",(any),0001-01-01,2021-11-08,8-A12B,0001193125-21-323132,exchange registration,
+NM:HONEST,1530979,"Honest Company, Inc.","Honest Company, Inc.",(any),0001-01-01,2021-05-03,8-A12B,0001193125-21-147974,exchange registration,
+NM:TOAST,1650164,"Toast, Inc.","Toast, Inc.",(any),0001-01-01,2021-09-20,8-A12B,0001193125-21-276944,exchange registration,
+NM:DOORDASH,1792789,DoorDash Inc,"DoorDash, Inc.",(any),0001-01-01,2020-12-02,8-A12B,0001193125-20-308368,exchange registration,2023 re-registration is the one `recent` returns
+NM:OUTSET MEDICAL,1484612,"Outset Medical, Inc.","Outset Medical, Inc.",(any),0001-01-01,2020-09-11,8-A12B,0001193125-20-244237,exchange registration,filed as Home Dialysis Plus until 2015
+NM:DOXIMITY,1516513,"Doximity, Inc.","Doximity, Inc.",(any),0001-01-01,2021-06-15,8-A12B,0001628280-21-012244,exchange registration,
+NM:ALLBIRDS,1653909,"Allbirds, Inc.","Smartbird, Inc.",(any),0001-01-01,2021-10-25,8-A12B,0001628280-21-020403,exchange registration,renamed Smartbird after the panel window; same CIK
+NM:WARBY PARKER,1504776,Warby Parker Inc.,Warby Parker Inc.,(any),0001-01-01,2021-09-21,8-A12B,0001628280-21-018899,exchange registration,"direct listing; filed as JAND, Inc."
+NM:XIAOJU KUAIZHI,1764757,DiDi Global Inc.,DiDi Global Inc.,(any),0001-01-01,2021-06-24,8-A12B,0001104659-21-085197,exchange registration,Didi Global; ADSs registered on the NYSE
+NM:DRAFTKINGS,1772757,DraftKings Inc.,DraftKings Holdings Inc.,DraftKings Inc.,2020-04-27,2020-04-29,8-K12B,0001104659-20-052629,successor registration,de-SPAC into Diamond Eagle; the 2019 8-A12B is the shell's
+NM:AURORA INNOVATION,1828108,"Aurora Innovation, Inc.","Aurora Innovation, Inc.","Aurora Innovation, Inc.",2021-11-03,2021-11-03,,,successor name,de-SPAC into Reinvent Technology Partners Y
+NM:VROOM,1580864,"Vroom, Inc.","Vroom, Inc.",(any),0001-01-01,2020-06-05,8-A12B,0001193125-20-161871,exchange registration,
+NM:GRAB,1855612,Grab Holdings Ltd,Grab Holdings Ltd,(any),0001-01-01,2021-12-01,8-A12B,0001193125-21-344286,exchange registration,de-SPAC into Altimeter Growth
+NM:MAPLEBEAR DBA INSTACART,1579091,Maplebear Inc.,Maplebear Inc.,(any),0001-01-01,2023-09-14,8-A12B,0001193125-23-235388,exchange registration,Maplebear Inc.
+NM:CIRCLE INTERNET FINANCIAL,1876042,"Circle Internet Group, Inc.","Circle Internet Group, Inc.",(any),0001-01-01,2025-05-27,8-A12B,0000950103-25-006419,exchange registration,
+NM:CAVA,1639438,"CAVA GROUP, INC.","CAVA GROUP, INC.",(any),0001-01-01,2023-06-15,8-A12B,0001628280-23-022108,exchange registration,
+NM:SERVICETITAN,1638826,"ServiceTitan, Inc.","ServiceTitan, Inc.",(any),0001-01-01,2024-12-09,8-A12B,0001193125-24-273531,exchange registration,
+NM:ROOFOODS,,,,,,,,,no SEC registration,Deliveroo listed on the LSE; no SEC registration exists
+NM:ANT,,,,,,,,,no SEC registration,the 2020 listing was pulled; the company is still private

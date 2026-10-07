@@ -1,0 +1,11 @@
+company,date,bulk_funds,bulk_fams,bulk_spread,paper_funds,paper_spread,verdict
+Discord,31-MAR-2026,10,4,917.5493716337522,8,53,wider coverage
+Anthropic,30-APR-2026,25,8,49.80141732307774,14,39,wider coverage
+Revolut,30-APR-2026,11,2,34.7339603265002,11,35,matches
+Epic Games,31-MAR-2026,26,9,57.58205884983454,7,33,wider coverage
+Gusto,31-MAR-2026,10,3,32.264030118957955,8,32,wider coverage
+Databricks,30-APR-2026,23,10,17.07966485274739,12,15,wider coverage
+Canva,31-MAR-2026,38,8,39.279798223635474,5,10,wider coverage
+Anduril,31-MAR-2026,15,5,9.868214621901483,7,4,wider coverage
+Stripe,31-MAR-2026,15,9,73.0758807752035,8,1,wider coverage
+OpenAI,30-APR-2026,16,7,0.0004507800697384212,13,0,wider coverage

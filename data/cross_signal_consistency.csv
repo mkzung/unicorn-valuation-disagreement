@@ -1,0 +1,7 @@
+company,n_funds,n_families,spread_pct,gap_pct,quality_flag,fund_consensus,secondary_sign
+OpenAI,13,6,0.00045079398449665575,6.667840375586853,clean,herd,at/above
+Stripe,8,4,1.3730158799184045,13.213836477987417,tender_not_primary,herd,at/above
+Anduril,7,2,3.59272042673362,69.22950819672131,clean,herd,at/above
+Databricks,12,6,15.16613113417935,27.38805970149254,clean,disagree,at/above
+Epic Games,7,2,32.869759642258245,-61.39682539682539,stale_headline,disagree,below
+Anthropic,14,3,39.44393933269961,0.0,clean,disagree,at/above

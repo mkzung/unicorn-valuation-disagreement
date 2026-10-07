@@ -1,0 +1,29 @@
+company,sector,headline_val_busd,headline_type,headline_date,headline_source,forge_val_busd,forge_date,quality_flag,notes
+Anthropic,AI,965,primary,2026-05,Axios/CNBC 2026-05-28,965.00,2026-06-24,clean,Series H ~$65B round late May 2026
+OpenAI,AI,852,primary,2026-Q2,valueaddvc/CNBC 2026,908.81,2026-06-24,clean,$122B round; ~$1T IPO planned Sep 2026
+Databricks,Data/AI,134,primary,2026-02,CNBC 2026-02-09,170.70,2026-06-24,clean,completed $5B round; newer round targeting $165-175B
+Anduril,Defense,61,primary,2026-05,CNBC 2026-05-13,103.23,2026-06-24,clean,$5B round Thrive/a16z doubled val to ~$61B
+Ramp,FinTech,44,primary,2026-06-04,TechCrunch 2026-06-04,45.76,2026-06-24,clean,$750M round at $44B
+Perplexity,AI,20,primary,2025-09,TechCrunch 2025-09-10,19.08,2026-06-24,clean,$200M at $20B Sep25; ~$22.6B secondary Jan26
+Kraken,Crypto,20,primary,2025-11,Sacra/Tracxn 2025-11,11.93,2026-06-24,clean,$800M at $20B Nov25; S-1 paused Mar26
+Mercury,FinTech,5.2,primary,2026-05,CNBC 2026-05-20,5.20,2026-06-24,clean,$5.2B up 49% in 14mo
+Shield AI,Defense,12.7,primary,2026-03,Fortune/TechCrunch/Bloomberg 2026-03,13.21,2026-06-24,clean,Series G $2B total at $12.7B Mar-2026; +140% YoY (date precisioned from year-only during the 2026-06-27 source check)
+Neuralink,Neurotech,9.6,primary,2025-05,Sacra 2025-05,14.87,2026-06-24,stale_headline,$9.6B May25; Series E $650M Apr26 val undisclosed
+Stripe,FinTech,159,tender,2026,Sourcery 2026,180.01,2026-06-24,tender_not_primary,last benchmark is a tender (secondary) not a primary round
+Ripple,Crypto,40,primary,2025-11,Bloomberg/Fortune 2026,17.91,2026-06-24,xrp_treasury_caveat,$40B Nov25 round + $50B buyback Mar26; large secondary discount; ~$25B XRP treasury complicates equity value
+Epic Games,Gaming,31.5,primary,2022-04,Sony/KIRKBI 2022,12.16,2026-06-24,stale_headline,last primary 2022 at $31.5B; secondary repriced down
+Glean,Data/AI,7.2,primary,2025-06,CNBC/Glean/Goodwin 2025-06,6.55,2026-06-24,clean,Series F $150M at $7.2B Jun-2025 Wellington; prior Sep-2024 $4.6B
+PsiQuantum,Quantum,7.0,primary,2025-09,PsiQuantum/QuantumInsider/DCD 2025-09,5.13,2026-06-24,clean,Series E $1B at $7B Sep-2025 BlackRock/Temasek/Baillie-Gifford
+Gecko Robotics,Robotics,1.25,primary,2025-06,CNBC/SiliconANGLE/Gecko 2025-06,1.14,2026-06-24,clean,Series D $125M at $1.25B Jun-2025 Cox; ~2x prior $633M 2023
+Redwood Materials,Energy,6.0,primary,2025-10,Bloomberg/Redwood/WilsonSonsini 2025-10,4.78,2026-06-24,clean,Series E $350M at >$6B Oct-2025 Eclipse/NVentures; JB Straubel
+SandboxAQ,Quantum,5.75,primary,2025-04,SandboxAQ/CBInsights/TSG 2025-04,13.89,2026-06-24,stale_headline,Series E $450M at $5.75B Apr-2025; secondary +141% over a >12mo round
+Polymarket,Crypto,9.0,primary,2025-10,Fortune/ICE-IR/Ventureburn 2025-10,14.13,2026-06-24,contested_headline,ICE $2B strategic at $9B Oct-2025; newer ~$15B round reported not yet closed
+Rippling,SaaS,16.8,primary,2025-05,TechCrunch/CNBC/Rippling 2025-05,15.79,2026-06-24,stale_headline,Series G $450M at $16.8B May-2025 (>12mo); also a $200M tender
+Chainalysis,Crypto,8.6,primary,2022-05,TechCrunch/CoinDesk/Chainalysis 2022-05,1.32,2026-06-24,stale_headline,Series F $170M at $8.6B May-2022; secondary repriced down ~85%
+Consensys,Crypto,7.0,primary,2022-03,TechCrunch/CoinDesk/TheBlock 2022-03,1.51,2026-06-24,stale_headline,Series D $450M at $7B Mar-2022 MetaMask parent; repriced down
+Flexport,Logistics,8.0,primary,2022-02,CNBC/Cooley/SiliconANGLE 2022-02,0.913,2026-06-24,stale_headline,Series E $935M at $8B Feb-2022 a16z/MSD; secondary repriced down ~89%
+Automation Anywhere,SaaS,6.8,primary,2019-11,Sacra/CBInsights/Wikipedia 2019-11,1.43,2026-06-24,stale_headline,last equity Series B $290M at $6.8B Nov-2019; 2022 round was $200M debt
+Zipline,Logistics,7.6,primary,2026-01,Bloomberg/Reuters/finsmes 2026-01,6.86,2026-06-24,clean,Series H $600M+ at $7.6B Jan-2026 Valor/Fidelity/Tiger; up from ~$5B 2024
+Upgrade,FinTech,7.3,primary,2025-10,Bloomberg/CNBC/PYMNTS 2025-10,5.05,2026-06-24,clean,Series G $165M at $7.3B Oct-2025 Neuberger Berman; first raise since 2021
+Harness,SaaS,5.5,primary,2025-12,TechCrunch/CNBC/Axios 2025-12,3.03,2026-06-24,clean,Series E $200M primary +$40M tender at $5.5B Dec-2025 Goldman; up 49pct from $3.7B 2022
+SambaNova,Semiconductors,2.2,primary,2026-02,Reuters/TSG 2026-02,2.64,2026-06-24,clean,Series E $350M at ~$2.2B Feb-2026 Vista/Cambium down round from $5.1B peak

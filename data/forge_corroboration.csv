@@ -1,0 +1,12 @@
+company,forge_val_busd,indep_implied_val_busd,indep_type,indep_date,indep_source,note
+Anthropic,965.00,1000.00,secondary_press,2026-05-26,Decrypt/YahooFinance/Qz 2026-05-26 ~$1T implied on secondary mkts,secondary markets priced ~$1T days before the $965B Series H (2026-05-28); Forge equals the round
+OpenAI,908.81,852.00,primary_round,2026-03-31,CNBC/Bloomberg 2026-03 $852B close ($122B round),no independent secondary-VENUE figure (current secondary is Forge-only); anchored to the confirmed $852B round; Forge +7% above it
+Databricks,170.70,170.00,primary_round,2026-06-09,TheInformation/Inc/PYMNTS 2026-06-09 $165-175B round in talks,independent new-round reporting lands almost exactly on Forge's secondary mark
+Anduril,103.23,95.08,secondary_venue,2026-03-16,PMInsights 2026-03-16 $95.08B secondary,independent secondary tracker 3mo before the Forge as-of; Forge ~$100B Jun-2026 (single tracker)
+Ramp,45.76,44.00,primary_round,2026-06-04,TechCrunch/PYMNTS 2026-06-04 $750M at $44B,very recent confirming primary round; Forge +4%
+Stripe,180.01,159.00,tender,2026-02-24,CNBC/TechCrunch/TheBlock/Stripe 2026-02-24 $159B tender,the panel headline IS this employee tender; Forge +13% four months later
+Kraken,11.93,,secondary_venue,2026-06,Hiive/Caplight 2026 heavy secondary volume above $10B,directional only (no single clean figure): independent venues confirm 'above $10B down from the $20B Nov-2025 round' = Forge $11.93B and the -40% gap
+Perplexity,19.08,21.20,secondary_venue,2026-01,Tracxn/secondary 2026-Q1 $21.2-22.6B,Forge runs conservative (-10%); a reported Series E-6 ~$21.21B early-2026 may update the headline; the panel figure is left unchanged
+Epic Games,12.16,14.76,secondary_venue,2026-06,Notice $393.63/sh / PremierAlts $18B / secondary $13-18B 2026,Forge $324.30/sh is the LOW end of a $13-18B cross-venue range; Forge -18% vs the Notice-implied level
+PsiQuantum,5.13,5.53,secondary_venue,2026-06,NasdaqPrivateMarket $33.09 (Jun5) / Hiive $32.01 (Jun26) / Public $32.88 2026,Forge $30.16/sh vs ~$32.5/sh across three venues (-7%)
+Mercury,5.20,4.95,secondary_venue,2026-06-05,NasdaqPrivateMarket $16.87/sh 2026-06-05,Forge $17.72/sh vs NPM $16.87/sh (+5%); single venue

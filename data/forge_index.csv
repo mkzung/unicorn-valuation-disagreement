@@ -1,0 +1,7 @@
+date,fpmi_level,basis,source,accessed,note
+2021-06-24,416.13,5Y trailing return +50.91% applied to the 2026-06-24 level,Forge Data LLC ^FPMI (trailing returns via Yahoo Finance display of Forge data),2026-06-27,pre-peak region; the true 2021-22 cycle peak postdates this anchor and is >= this level
+2023-06-24,226.32,3Y trailing return +177.48% applied to the 2026-06-24 level,Forge Data LLC ^FPMI (trailing returns via Yahoo Finance display of Forge data),2026-06-27,trough region (Forge describes the correction as 2022-2024); lowest of the dated anchors
+2025-06-24,317.10,1Y trailing return +98.04% applied to the 2026-06-24 level,Forge Data LLC ^FPMI (trailing returns via Yahoo Finance display of Forge data),2026-06-27,equals the stated 52-week low 317.11 -> internal consistency check passes
+2025-12-31,454.50,2026 YTD return +38.17% applied to the 2026-06-24 level,Forge Data LLC ^FPMI (trailing returns via Yahoo Finance display of Forge data),2026-06-27,end-2025; cross-check: FY2025 FPMI +85.9% through Nov (forgeglobal.com)
+2026-03-31,527.01,2026 QTD return +19.16% applied to the 2026-06-24 level,Forge Data LLC ^FPMI (trailing returns via Yahoo Finance display of Forge data),2026-06-27,end-Q1-2026; cross-check: FPMI Jan +4.4% (forgeglobal.com Feb 2026 update)
+2026-06-24,627.98,spot index level,Forge Data LLC ^FPMI spot level via Yahoo Finance display of Forge data,2026-06-27,52-week range 317.11-628.76; prev close 628.76

@@ -1,0 +1,43 @@
+company,secondary,ipo_exit,cross_fund,prediction_mkt,n_signals
+Anthropic,1,0,1,1,3
+OpenAI,1,0,1,1,3
+Anduril,1,0,1,0,2
+Databricks,1,0,1,0,2
+Epic Games,1,0,1,0,2
+Stripe,1,0,1,0,2
+SpaceX,0,1,0,1,2
+Automation Anywhere,1,0,0,0,1
+Chainalysis,1,0,0,0,1
+Consensys,1,0,0,0,1
+Flexport,1,0,0,0,1
+Gecko Robotics,1,0,0,0,1
+Glean,1,0,0,0,1
+Harness,1,0,0,0,1
+Kraken,1,0,0,0,1
+Mercury,1,0,0,0,1
+Neuralink,1,0,0,0,1
+Perplexity,1,0,0,0,1
+Polymarket,1,0,0,0,1
+PsiQuantum,1,0,0,0,1
+Ramp,1,0,0,0,1
+Redwood Materials,1,0,0,0,1
+Ripple,1,0,0,0,1
+Rippling,1,0,0,0,1
+SambaNova,1,0,0,0,1
+SandboxAQ,1,0,0,0,1
+Shield AI,1,0,0,0,1
+Upgrade,1,0,0,0,1
+Zipline,1,0,0,0,1
+Chime,0,1,0,0,1
+Circle,0,1,0,0,1
+CoreWeave,0,1,0,0,1
+Figma,0,1,0,0,1
+Instacart,0,1,0,0,1
+Klarna,0,1,0,0,1
+Klaviyo,0,1,0,0,1
+Reddit,0,1,0,0,1
+ServiceTitan,0,1,0,0,1
+Canva,0,0,1,0,1
+Discord,0,0,1,0,1
+Gusto,0,0,1,0,1
+Revolut,0,0,1,0,1

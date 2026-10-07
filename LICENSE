@@ -1,0 +1,42 @@
+MIT License
+
+Copyright (c) 2026 Max Gorbuk
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-------------------------------------------------------------------------------
+Data and third-party materials (NOT covered by the MIT license above)
+
+The MIT license covers the CODE in this repository (src/, tests/, build
+scripts) and the author's ORIGINAL derived data and figures. The underlying
+data carry their own terms:
+
+- SEC EDGAR filings (Form N-PORT, S-1/424B) underlying data/ are U.S.
+  Government works in the public domain.
+- Forge Global / Forge Data LLC figures (the FPMI index level and trailing
+  returns, and the per-company secondary estimates) are cited with attribution
+  as inputs to the author's derived metrics. They are NOT relicensed here and
+  remain the property of Forge Data LLC.
+- Prediction-market readings (Polymarket, Kalshi) and headline rounds are
+  public facts, each cited with its source and date in data/.
+- The author's own derived datasets (the company-quarter panel, the gap and
+  cross-fund-spread metrics, the coverage table) may be reused under
+  CC BY 4.0 with attribution to this working paper.
+
+Full provenance and the operating standard are in notes/compliance_audit.md.

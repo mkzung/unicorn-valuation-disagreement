@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+message: "If you use this code, data, or the working paper, please cite it as below."
+title: "Disagreement Without a Price: How Far Apart Mutual Funds Mark the Same Private Company"
+type: software
+authors:
+  - family-names: Gorbuk
+    given-names: Max
+    affiliation: "Independent Researcher; MAM, London Business School"
+version: "2.2.0"
+date-released: 2026-10-07
+repository-code: "https://github.com/mkzung/unicorn-valuation-disagreement"
+identifiers:
+  - type: url
+    value: "https://ssrn.com/abstract=7016178"
+    description: "SSRN working paper page"
+keywords:
+  - private-company valuation
+  - unicorns
+  - mutual funds
+  - fair value
+  - valuation disagreement
+  - differences of opinion
+abstract: >-
+  Between funding rounds a startup has no market price, yet mutual funds that
+  own it must value it monthly. Using 309,654 such values filed with the SEC,
+  2019 to 2026, I compare managers holding the same company on the same date.
+  For the median venture-backed company, the most and least optimistic
+  managers are 10.1 percent apart. Two managers that bought identical
+  Databricks shares at one price valued them eleven dollars a share apart six
+  months later. Stale marks do not explain the gap, which is a lasting trait of
+  the company and narrows when a new round sets a price.
+preferred-citation:
+  type: article
+  title: "Disagreement Without a Price: How Far Apart Mutual Funds Mark the Same Private Company"
+  authors:
+    - family-names: Gorbuk
+      given-names: Max
+  year: 2026
+  notes: "Working paper. SSRN: https://ssrn.com/abstract=7016178"

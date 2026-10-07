@@ -1,0 +1,86 @@
+# Disagreement Without a Price
+
+*Solo working paper, public data only. Max Gorbuk, Independent Researcher, MAM, London Business School.*
+*Paper: [`paper/unicorn_valuation_disagreement.pdf`](paper/unicorn_valuation_disagreement.pdf) · [SSRN abstract 7016178](https://ssrn.com/abstract=7016178). Reproduce everything: `pip install -r requirements.lock && python3 src/reproduce.py` (Python ≥ 3.10; the offline stages need no network, and takes about five minutes; `--only stage,stage` runs a subset where a shell caps command time). **Resources, measured rather than assumed:** the canonical-number check alone peaks at ~1.0 GB of RSS and takes ~3 minutes on one core; the full `pytest` suite takes ~5½ minutes; `data/` is 24 MB and the parquet panel cache adds ~19 MB. A machine that cannot hold a gigabyte will be killed part-way through with no message, which reads like a package that does not reproduce, so the number is printed here. `requirements.lock` pins the versions the reported figures were produced on and is what the line above installs; `requirements.txt` carries the floors, for a reader who wants to know the minimum rather than reproduce the exact run; [`.github/workflows/verify.yml`](.github/workflows/verify.yml) runs the drift guards and the test suite against both that lock and the floors above, because every number here has to survive a reader's stack as well as mine. Rebuilding the PDF additionally needs `pandoc` + XeLaTeX (TeX Live with `newunicodechar` and `tex-gyre`) and, for the post-build check, `pdffonts` from poppler. The font is not a preference: on a machine without TeX Gyre Termes the engine falls back to a family whose bold it cannot resolve, and the paper renders with no bold anywhere while the build reports success. Neither question fontconfig can answer catches that (macOS reports a Bold instance for a variable font XeTeX cannot instantiate), so `src/build_pdf.py` tries each candidate family, reads the finished PDF, and moves to the next one if the weights are missing (on my machine that walk ends at Charter, which is the family the shipped PDF is set in). The SEC harvesters need network + `certifi`. Cite via [`CITATION.cff`](CITATION.cff). This README is the operational build doc.*
+
+## The claim
+
+Between funding rounds a startup has no market price, yet the mutual funds that own its shares must report a value to the SEC every month. This paper collects every one of those values from 2019 to 2026, 309,654 of them, and measures how far apart different asset managers ("houses") value the same company on the same date. They are far apart, the gap belongs to the company rather than to stale reporting, and a new funding round closes it only for a while.
+
+**The headline.** For the median company and date, the most optimistic house values the company 12.1% above the most pessimistic one; for venture-backed companies alone the figure is 10.1%. Only 17.0% of company-dates are unanimous, and $180.0B of the $517.3B booked in these positions sits in cells more than 24% apart. Counting opinions correctly is what makes the number: filings name the legal trust, one house files through dozens of trusts, and measured trust by trust the median gap is 0.004%.
+
+**Why it is not an artefact.** On public stocks the same houses agree to the cent (§2.3). In 760 cells where no house moved its mark, two thirds are still not unanimous (§6.2). On one Databricks Series J lot, bought by two houses at $92.50 a share and marked by both at $190.00 by December 2025, the two were eleven dollars a share apart in June (§2.1). Where two houses name the same share class, the typical gap falls from 8.45% to 0.74%, but 597 groups across 68 companies still differ by more than 24% (§3.3, Appendix C.5). Share classes explain the typical gap, not the wide one.
+
+**What compresses it.** A new round, briefly. Rounds are dated from the filings themselves (§9). Disagreement falls by 2.52 points in the month of a round, is narrower afterwards in 22 of 29 companies, and rebuilds at about 1.1 points a month, while three shifted anchors show no step. With 49 dated anchors and seven down rounds, the result cannot separate "a price now exists" from "the news was good" (§8.5).
+
+**What an exit says.** Across the seven listings where mutual funds held the company before its IPO, the last fund mark was closer to the IPO valuation than the last private round in five of them, with a median |error| **11% vs 48%** (§7). The two exceptions, Klaviyo and Circle, had recent, fairly priced rounds, so the marks win when the headline has gone stale.
+
+Anchor: **Gornall & Strebulaev (2020)** priced deal terms and found headline valuations about 48% above fair value. This paper measures the dispersion of what holders report rather than the level of the headline, on the population rather than a sample; Appendix C.1 reconciles the two.
+
+## Four instruments recovered from filings (§9)
+
+Each is calibrated against an independent document type, and each is usable without this paper's data:
+
+1. **Listing dates** from a company's own Form 8-A12B / 8-K12B: 21 of 23 names, validated against the last date the panel carries them private (18 inside a quarter, widest 82 days against a next-closest 258).
+2. **Share splits** off the share-count panel: 601 candidates, **29 events** confirmed by two or more houses. Its own finding: restatement is *not* simultaneous (median span 30 days, up to 92), which is why a one-month confirmation window is wrong and why the price-coordination dating rule below fails.
+3. **Round dates** from the first month a new series letter appears across two houses: **434** company-series pairs on **287** companies, calibrated against N-CSR acquisition dates to within 35 days on **14 of 15** clean pairs (median gap 16 days).
+4. **Acquisition dates and cost** from N-CSR schedules of investments: 767 schedule rows, 44 registrants, 429 lot-period-series, prefilter validated as a superset with **zero missed**.
+
+A negative result is reported with them: **price coordination dates worse than the count rule** (11 of 15 inside 35 days against 14 of 15, at a median gap of 20 days against 16; the step's magnitude goes with the anchor and its sign does not), because waiting for a second house to agree waits on that house's reporting calendar rather than on the company's, which is the desynchronisation instrument 2 measures.
+
+## Data sources
+
+- **N-PORT (fund marks), by company.** EDGAR full-text search (`efts.sec.gov/LATEST/search-index?q="<company>"&forms=NPORT-P`) → resolve filing → parse the `invstOrSec` private holdings (issuer, fair value, level) from the NPORT-P XML; `src/nport_fetch.py` and `src/nport_timeseries.py` (a real SEC `User-Agent` header is required).
+- **N-PORT, by filing.** The SEC's quarterly [Form N-PORT data sets](https://www.sec.gov/data-research/sec-markets-data/form-n-port-data-sets) hold every disseminated filing from 2019Q4 onward. `src/nport_bulk.py` harvests them into `data/nport_population_marks.csv.gz`, which finds companies instead of assuming them: the search above can only reach names already on a list and stops after eighteen filings each. `src/entity_resolution.py` maps issuer strings to companies and is held to the hand-labelled companies in `data/fund_marks.csv` by `tests/test_entity_resolution.py`; `src/population.py` builds the company-by-report-date panel. `notes/universe_definition.md` sets out which rows qualify and why the restricted-security flag is not one of the conditions. Which figures come from which path: every number in the PDF comes from the by-company harvest, and `src/reconcile_versions.py` recomputes each of those §4.3 cells from the by-filing panel so the two can be compared cell by cell.
+- **Headline rounds.** Last primary-round valuations from company announcements and the financial press, each independently ≥2-sourced.
+- **Cut to a second paper.** A secondary-market cross-section, a vendor private-market index and exchange-traded IPO contracts were reported in an earlier version. They rest on sources outside EDGAR, one takes the primary round as a modelling input, and no claim here needs them. Their code and data stay in this repository; their six figures do not, because `figures/` is what a reader browses and a chart of a signal the paper says it does not use is a chart that will be read as one. `tests/test_manuscript_pointers.py` holds `figures/` to exactly the images the paper cites.
+
+## Results at a glance
+
+Every result below is reproducible and robustness-checked. **One command reproduces everything:** `pip install -r requirements.lock` then `python3 src/reproduce.py` runs every offline stage in order (`validation`, `fund_marks`, `robustness`, `level1_placebo`, `mark_staleness`, `fund_complex`, `population`, `population_figure`, `fund_marks_bulk`, `company_class`, `p4_pretest`, `reconcile_versions`, `split_events`, `round_dates`, `round_event_study`, `nav_wedge`, `paper_figures`), regenerates the figures, and recomputes every headline number quoted in the paper from the production code, checking each against the manuscript prose and writing `notes/reproduction_manifest.md`. The registry of canonical figures lives in `src/paper_numbers.py`; `tests/test_paper_consistency.py` turns any code- *or* prose-drift into a CI failure (the failure mode that previously had to be caught by hand). Ten scripts reach out to SEC and are run separately: `src/family_forecast.py`, `src/form_d.py`, `src/listing_dates.py`, `src/ncen_advisers.py`, `src/ncsr_acquisitions.py`, `src/nport_bulk.py`, `src/nport_fetch.py`, `src/nport_timeseries.py`, `src/verify_marks.py`, `src/verify_placebo_sec.py`. They refresh or verify the data the offline stages then read, and they overwrite committed files in place. EDGAR full-text search does not return the same set twice, so read `git diff` after a refresh before keeping it.
+
+1. **IPO exits** (`src/validation.py`, §7, Appendix D). Ten companies listed in 2023–26 with a public-data trail. For the seven that mutual funds held before the IPO, the last SEC N-PORT mark was closer to the IPO valuation than the last private round in **five of** the seven, with a median absolute error of **11%** against **48%** for the headline. Instacart shows the gap at its widest: +8% for the fund mark against +294% for the headline. The four 2021-vintage down-round headlines overshot their IPOs by a median **+160%**. The fund mark's edge is freshness, not foresight: the two exceptions, Klaviyo and Circle, are the two names whose last round was recent and fairly priced. `figures/ipo_validation.png`.
+
+2. **Ten named cells** (`src/nport_fetch.py`, §4.3). 386 Level-3 marks from 104 mutual funds on 15 companies. On a common report date, funds disagree on the price per share of the same private security by a median **24%** across the ten names with at least five same-date funds, from +39% Anthropic and +35% Revolut down to nothing for OpenAI, where all 13 funds mark $687.69. Names with a fresh, well-publicised round herd; stale, repriced or contested names do not. Widening the panel from eight names to ten raised the median from 13% to 24%, so the split between the two groups, not the level, is the robust feature. `figures/fund_marks_dispersion.png`.
+
+3. **Robustness** (`src/robustness.py` → `data/robustness_summary.csv`, `src/mark_staleness.py`, Appendix B). The 24% is unchanged across unit-outlier bands (23.7% at every K∈[2,5]) and fund thresholds. Almost all of the variance in marks lies between houses (η²≈1.00), and funds of one house file the identical mark in 89% of family-cells. Houses refresh their marks in 79% of quarters (58% at the least active, 92% at the most), and where every house has just remarked, the spread is wider rather than narrower (12.1% against 6.7%). A five-name expansion probe found one more qualifying name, Fanatics, with the same anatomy.
+
+4. **Reconciliation with the anchor paper** (Appendix C.1, no new data). Gornall and Strebulaev (2020) find reported post-money valuations 48% above the option-adjusted fair value of the cap table. This paper does not re-derive that number; it measures how far apart the houses that correct the headline land. The two meet in the cross-section: the haircut is largest on distressed and repriced names, and that is where the houses disagree most.
+
+5. **The population panel** (`src/population.py`, `src/entity_resolution.py`, `src/fund_complex.py` → `data/nport_population_marks.csv.gz`, §3 to §6). Every Level-3 private equity position in all 27 quarterly SEC bulk N-PORT data sets, 2019Q4–2026Q2: **309,654** marks on **15,443** issuer strings, joined to companies by identifier and exact name, never by similarity. Houses are fund complexes, not the legal trusts that file; Fidelity alone files through 36. **4,271** cells across **656** companies clear the bar of five funds and two houses (`src/population_figure.py` → `figures/population_spread.png`). Only **17.0%** are unanimous and **28.4%** agree within a basis point; the median spread is **12.1%**, **40.2%** exceed 24%, and §4.3's ten-name median sits at the **60th percentile**. **$180.0B** of the **$517.3B** booked, **34.8%**, sits above 24%. The spread is a trait of the company (between-company variance share **58.8%** against a **9.7%** relabelling null; lag-1 ρ=**0.734**, and **0.665** where the top mark moved), and within a house the mark is one number (**89.0%** of **9,210** multi-fund house-cells). Labelled by kind of company (`src/company_class.py` → `data/company_classification.csv`), the venture-backed population is **137** distinct issuers and **2,113** cells holding $402.2B, with a median spread of **10.1%**, **37.0%** of company-dates above 24%, and **$152.8B** of booked value above that line. `src/reconcile_versions.py` recomputes the ten §4.3 cells from this panel: nine come back with more funds, one matches, none is narrower.
+
+6. **The house map, checked from outside** (`src/ncen_advisers.py` → `data/ncen_advisers.csv`, §4). Form N-CEN Item C.9 names each series' adviser. An adviser is recovered for **1,161** of the **1,166** registrants in the panel; of the **55** houses the map merges, **22** file more than one adviser name, and none fuses two unrelated firms. The errors run the other way: **96** advisers appear under more than one house, each a merge the map declines to make, so each makes the correction smaller. `notes/ncen_validation.md` records the design.
+
+Remaining (optional): the 1,941 cells no filing describes, the widest group in the panel and the one place a real answer would move the headline; and the flow test of Appendix G.4, which needs one more table from the same SEC archives. Core result stands on public data alone; on SSRN (FEN/ERN) at https://ssrn.com/abstract=7016178; arXiv q-fin.GN next.
+
+## What is in this repository
+
+| Path | Holds |
+| --- | --- |
+| `paper/` | the manuscript (`draft.md`), its bibliography, and the built PDF |
+| `src/` | every harvester, metric and figure script; `reproduce.py` runs the offline ones in order |
+| `data/` | every input and derived table, each row carrying its source and date |
+| `figures/` | the six images the paper prints, each regenerated by the offline stages |
+| `notes/` | the methods notes: data dictionary, universe definition, data rights, compliance and SEC verification, the reproduction manifest, and `registration.md`, drafted and not filed, which §10 states |
+| `tests/` | the guards: metrics, prose-drift, package integrity |
+
+`src/paper_numbers.py` is the registry that ties each quoted number to the code that
+produces it, and `notes/reproduction_manifest.md` is the record of the last clean run.
+Working records (the worklog, the pre-publication fact check, reviewer notes) are kept
+outside the repository, so what you see here is the whole package.
+
+## Caveats (stated in full in the paper, §10)
+
+Nothing here is pre-registered, and §10.1 says so first. Fund marks are stale or model-based Level-3 rather than transaction prices, which is the object rather than a defect: the dispersion is what is being measured. The by-company harvest reaches only large, fund-held names and is a lower bound on every spread it reports; the population panel avoids that selection and carries limits of its own. Appendix A.3 and A.4 state both. Identity is resolved on identifiers and exact names, never on a similarity score. An earlier version of this README listed "fuzzy name-matching" as a caveat, which had stopped being true and contradicted §3.2.
+
+## Key references (full list in the paper)
+
+- Gornall & Strebulaev (2020), *Squaring VC Valuations with Reality*, JFE (anchor).
+- Chernenko, Lerner, Zeng (2021), *Mutual Funds as Venture Capitalists? Evidence from Unicorns*, RFS.
+- Kwon, Lowry, Qian (2020), *Mutual Fund Investments in Private Firms*, JFE.
+- *Private Company Valuations by Mutual Funds* (2023), Review of Finance.
+- WEF × Stanford GSB, *Future of Venture Capital* (2026): liquidity theme; I am a named contributor.
+
+## Rights
+
+Public market data only (SEC N-PORT and public company announcements), independent of VCI's proprietary set. Affiliation = Independent / LBS, **not** Stanford/VCI. Cite Gornall & Strebulaev (2020) as the anchor.
